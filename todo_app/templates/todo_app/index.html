@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TodoList App</title>
+	<!-- bootstrap cdn -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<!-- google fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+
+	<link rel="stylesheet" href="{% static 'todo_app/style.css' %}" />
+
+
+</head>
+
+<body>
+	<div class="hero">
+		<div class="container">
+			<h1 class="display-2 text-center">WhAT's yOuR fUCkIn' prIOriTy ??</h1>
+			<p class="lead text-center">TYPE YOUR NOTE AND PRESS ENTER</p>
+			<div class="row">
+				<form action="{% url 'add' %}" method="POST" class="col-lg-6 col-8 mx-auto" role="form">
+					{% csrf_token %}
+					<div class="input-group">
+						{{ form.task }}
+						<span>
+							<a href="{% url 'add' %}"><button id="btn" type="button" class="tn btn-dark">ADD</button></a>
+						</span>
+					</div>			     
+				</form>
+			</div>			
+			<div class="row">				
+				<ul id="list" class="list col-lg-6 col-8 mx-auto">
+					{% for todo in todo_list %}
+						{% if todo.complete %}
+							<li class="complete"><strong>{{ todo.task }}</strong><button type="button" class="btn btn-success">COMPLETED</button></li>
+						{% else %}
+							<a href="{% url 'complete' todo.id %}"><li class="incomplete"><strong>{{ todo.task }}</strong><button type="button" class="btn btn-danger">PENDING</button></li></a>
+
+
+						{% endif %}
+
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="row">
+				<div class = "container">
+					<a href="{% url 'delete_comp' %}"><button type="button" class="btn btn-warning">DELETE COMPLETED</button></a>
+					<a href="{% url 'delete_all' %}"><button type="button" class="btn btn-danger">DELETE ALL</button></a>
+				</div>	
+			</div>				
+		</div>
+	</div>	
+</body>
+</html>
